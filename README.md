@@ -129,27 +129,39 @@ flutter run
 
 ### Login Session
 
-![Login Session](login.png)
+<p align="center">
+  <img src="login.png" width="350"/>
+</p>
 
 ### Data Medicine
 
-![Data Medicine](obat.png)
+<p align="center">
+  <img src="obat.png" width="350"/>
+</p>
 
 ### Sidebar Session
 
-![Sidebar Session](sidebar.png)
+<p align="center">
+  <img src="sidebar.png" width="350"/>
+</p>
 
 ### Category Session
 
-![Category Session](kategori.png)
+<p align="center">
+  <img src="kategori.png" width="350"/>
+</p>
 
 ### Supplier Information
 
-![Supplier Information](supplier.png)
+<p align="center">
+  <img src="supllier.png" width="350"/>
+</p>
 
 ### ERD Diagram
 
-![ERD Diagram](ERD-Diagram.png)
+<p align="center">
+  <img src="ERD-Diagram.png" width="350"/>
+</p>
 
 ---
 
