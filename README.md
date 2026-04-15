@@ -4,6 +4,15 @@
 
 # 💊 Pharmacy Admin Dashboard (Mobile App)
 
+## ✨ Highlights
+
+- Mobile-based admin dashboard
+- Full CRUD system (medicine, category, supplier)
+- Category-based filtering system
+- REST API integration with Spring Boot
+
+---
+
 ## 📖 Description
 
 A mobile-based admin dashboard application for pharmacy management built using Flutter and Spring Boot.
@@ -100,10 +109,10 @@ Admin can manage filtered data efficiently
 Runs on:
 
 ```bash
-http://localhost:8080/api/ name of endpoint you want see
+http://localhost:8080/api/{endpoint}
 ```
 
-### 🔹Mobile App (Flutter)
+### 🔹 Mobile App (Flutter)
 
 ```bash
 flutter pub get
@@ -113,7 +122,7 @@ flutter run
 ## 📌 Notes
 
 - This project is focused on admin dashboard functionality
-- Category creation feature is not fully implemented
+- Category update (edit) feature is not implemented yet
 - Backend must be running before using the mobile app
 
 ## 📸 Screenshots
@@ -141,6 +150,8 @@ flutter run
 ### ERD Diagram
 
 ![ERD Diagram](ERD-Diagram.png)
+
+---
 
 ## 👨‍💻 Author
 
