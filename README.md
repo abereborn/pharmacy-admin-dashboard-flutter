@@ -154,7 +154,7 @@ flutter run
 ### Supplier Information
 
 <p align="center">
-  <img src="supllier.png" width="350"/>
+  <img src="supplier.png" width="350"/>
 </p>
 
 ### ERD Diagram
