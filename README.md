@@ -129,27 +129,30 @@ flutter run
 
 ### Login Session
 
-![Login Session](login.png)
+<p align="center"> <img src="login.png" width="250"/> </p>
 
 ### Data Medicine
 
-![Data Medicine](obat.png)
+<p align="center"> <img src="obat.png" width="250"/> </p>
 
 ### Sidebar Session
 
-![Sidebar Session](sidebar.png)
+<p align="center"> <img src="sidebar.png" width="250"/> </p>
 
 ### Category Session
 
-![Category Session](kategori.png)
+<p align="center"> <img src="kategori.png" width="250"/> </p>
 
 ### Supplier Information
 
-![Supplier Information](supplier.png)
+<p align="center"> <img src="supplier.png" width="250"/> </p>
 
 ### ERD Diagram
 
-![ERD Diagram](ERD-Diagram.png)
+<p align="center"> <img src="ERD-Diagram.png" width="700"/> </p>
+
+### ▶️ Click Image Below to Watch Video
+<p align="center"> <a href="AutomationTesting.mp4"> <img src="AutomationTesting.png" width="500"/> </a> </p>
 
 ---
 
