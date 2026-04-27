@@ -75,8 +75,8 @@ class _ObatPageState extends State<ObatPage> {
   int? selectedKategoriId;
   int? selectedSupplierId;
 
-  final String baseUrl = "http://localhost:8080/api/obat";
-  final String kategoriUrl = "http://localhost:8080/api/kategori";
+  final String baseUrl = "http://127.0.0.1:8080/api/obat";
+  final String kategoriUrl = "http://127.0.0.1:8080/api/kategori";
 
   TextEditingController searchController = TextEditingController();
 
@@ -87,8 +87,20 @@ class _ObatPageState extends State<ObatPage> {
   void initState() {
     super.initState();
     fetchObat();
-    fetchKategori(); // 🔥 penting
+    fetchKategori();
     fetchSupplier();
+
+    // 🔥 TAMBAHAN KHUSUS TEST
+    Future.delayed(Duration(milliseconds: 500), () {
+      if (!mounted) return;
+
+      if (kategoriData.isNotEmpty && supplierData.isNotEmpty) {
+        setState(() {
+          selectedKategoriId = kategoriData.first['id'];
+          selectedSupplierId = supplierData.first['id'];
+        });
+      }
+    });
   }
 
   Future<void> fetchKategori() async {
@@ -153,7 +165,7 @@ class _ObatPageState extends State<ObatPage> {
   }
 
   Future<void> tambahObat(String nama, int harga, int stok) async {
-    await http.post(
+    final res = await http.post(
       Uri.parse(baseUrl),
       headers: {"Content-Type": "application/json"},
       body: json.encode({
@@ -161,10 +173,18 @@ class _ObatPageState extends State<ObatPage> {
         "harga": harga,
         "stok": stok,
         "kategori": {"id": selectedKategoriId},
-        "supplier": {"id": selectedSupplierId}, // 🔥 WAJIB
+        "supplier": {"id": selectedSupplierId},
       }),
     );
-    fetchObat();
+
+    print("🔥 STATUS TAMBAH: ${res.statusCode}");
+    print("🔥 BODY: ${res.body}");
+
+    await fetchObat();
+
+    applyFilter();
+
+    if (mounted) setState(() {});
   }
 
   Future<void> updateObat(int id, String nama, int harga, int stok) async {
@@ -176,15 +196,15 @@ class _ObatPageState extends State<ObatPage> {
         "harga": harga,
         "stok": stok,
         "kategori": {"id": selectedKategoriId},
-        "supplier": {"id": selectedSupplierId}, // 🔥 WAJIB
+        "supplier": {"id": selectedSupplierId},
       }),
     );
-    fetchObat();
+    await fetchObat();
   }
 
   Future<void> hapusObat(int id) async {
     await http.delete(Uri.parse("$baseUrl/$id"));
-    fetchObat();
+    await fetchObat();
   }
 
   void showForm({Map? obat}) {
@@ -224,23 +244,27 @@ class _ObatPageState extends State<ObatPage> {
 
               TextField(
                 controller: namaController,
+                key: const Key('namaObatField'),
                 decoration: InputDecoration(labelText: "Nama"),
               ),
 
               TextField(
                 controller: hargaController,
                 keyboardType: TextInputType.number,
+                key: const Key('hargaField'),
                 decoration: InputDecoration(labelText: "Harga"),
               ),
 
               TextField(
                 controller: stokController,
                 keyboardType: TextInputType.number,
+                key: const Key('stokField'),
                 decoration: InputDecoration(labelText: "Stok"),
               ),
 
               // ✅ KATEGORI
               DropdownButtonFormField<int>(
+                key: const Key('kategoriDropdown'),
                 value: selectedKategoriId,
                 hint: Text("Pilih Kategori"),
                 items: kategoriData.map<DropdownMenuItem<int>>((item) {
@@ -258,12 +282,13 @@ class _ObatPageState extends State<ObatPage> {
 
               // ✅ SUPPLIER
               DropdownButtonFormField<int>(
+                key: const Key('supplierDropdown'),
                 value: selectedSupplierId,
                 hint: Text("Pilih Supplier"),
                 items: supplierData.map<DropdownMenuItem<int>>((item) {
                   return DropdownMenuItem(
                     value: item['id'],
-                    child: Text(item['nama']), // 🔥 FIX DISINI JUGA
+                    child: Text(item['nama']),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -276,8 +301,8 @@ class _ObatPageState extends State<ObatPage> {
               SizedBox(height: 10),
 
               ElevatedButton(
-                onPressed: () {
-                  // 🔥 VALIDASI WAJIB
+                key: const Key('saveObatButton'),
+                onPressed: () async {
                   if (selectedKategoriId == null ||
                       selectedSupplierId == null) {
                     Navigator.pop(context);
@@ -301,13 +326,13 @@ class _ObatPageState extends State<ObatPage> {
                   }
 
                   if (obat == null) {
-                    tambahObat(
+                    await tambahObat(
                       namaController.text,
                       int.parse(hargaController.text),
                       int.parse(stokController.text),
                     );
                   } else {
-                    updateObat(
+                    await updateObat(
                       obat['id'],
                       namaController.text,
                       int.parse(hargaController.text),
@@ -317,6 +342,7 @@ class _ObatPageState extends State<ObatPage> {
 
                   Navigator.pop(context);
                 },
+
                 child: Text("Simpan"),
               ),
             ],
@@ -338,13 +364,14 @@ class _ObatPageState extends State<ObatPage> {
         elevation: 0,
         backgroundColor: Colors.teal,
         title: Text(
-          'Apotek App 💊',
+          'Apotek App',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
+            key: const Key('logoutButton'),
             onPressed: () {
               Navigator.pushAndRemoveUntil(
                 context,
@@ -414,6 +441,7 @@ class _ObatPageState extends State<ObatPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal,
         onPressed: () => showForm(),
+        key: const Key('addObatButton'),
         child: Icon(Icons.add),
       ),
 
@@ -498,10 +526,12 @@ class _ObatPageState extends State<ObatPage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.edit, color: Colors.orange),
+                            key: Key('editButton_${obat['id']}'),
                             onPressed: () => showForm(obat: obat),
                           ),
                           IconButton(
                             icon: Icon(Icons.delete, color: Colors.red),
+                            key: Key('deleteButton_${obat['id']}'),
                             onPressed: () {
                               confirmDelete(
                                 context: context,

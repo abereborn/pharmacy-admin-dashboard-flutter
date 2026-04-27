@@ -87,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 20),
 
                   TextField(
+                    key: const Key('usernameField'),
                     controller: usernameController,
                     decoration: InputDecoration(
                       labelText: "Username",
@@ -100,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 15),
 
                   TextField(
+                    key: const Key('passwordField'),
                     controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -116,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
+                      key: const Key('loginButton'),
                       onPressed: isLoading ? null : login,
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 14),
