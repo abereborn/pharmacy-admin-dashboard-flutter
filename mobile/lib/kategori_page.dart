@@ -21,7 +21,7 @@ class _KategoriPageState extends State<KategoriPage> {
 
   Future<void> hapusKategori(int id) async {
     await http.delete(Uri.parse("$baseUrl/$id"));
-    fetchKategori();
+    await fetchKategori();
   }
 
   void confirmDelete(int id) {
@@ -62,7 +62,7 @@ class _KategoriPageState extends State<KategoriPage> {
       body: json.encode({"namaKategori": nama}),
     );
 
-    fetchKategori(); // refresh list
+    await fetchKategori();
   }
 
   Future<void> fetchKategori() async {
@@ -95,6 +95,7 @@ class _KategoriPageState extends State<KategoriPage> {
               ),
 
               TextField(
+                key: const Key('namaKategoriField'),
                 controller: namaController,
                 decoration: InputDecoration(labelText: "Nama Kategori"),
               ),
@@ -102,6 +103,7 @@ class _KategoriPageState extends State<KategoriPage> {
               SizedBox(height: 10),
 
               ElevatedButton(
+                key: const Key('saveKategoriButton'),
                 onPressed: () {
                   if (namaController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -126,6 +128,7 @@ class _KategoriPageState extends State<KategoriPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        key: const Key('addKategoriButton'),
         backgroundColor: Colors.teal,
         onPressed: () => showForm(),
         child: Icon(Icons.add),
@@ -167,6 +170,7 @@ class _KategoriPageState extends State<KategoriPage> {
               ),
 
               child: ListTile(
+                key: Key('kategoriTile_${kategori['namaKategori']}'),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 10,
@@ -190,6 +194,7 @@ class _KategoriPageState extends State<KategoriPage> {
                     SizedBox(width: 8),
 
                     IconButton(
+                      key: Key('deleteKategori_${kategori['namaKategori']}'),
                       icon: Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
                         confirmDelete(kategori['id']);

@@ -525,13 +525,16 @@ class _ObatPageState extends State<ObatPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.edit, color: Colors.orange),
-                            key: Key('editButton_${obat['id']}'),
-                            onPressed: () => showForm(obat: obat),
+                            key: Key('editObat_${obat['id']}'),
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              showForm(obat: obat);
+                            },
                           ),
+
                           IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            key: Key('deleteButton_${obat['id']}'),
+                            key: Key('deleteObat_${obat['id']}'),
+                            icon: Icon(Icons.delete),
                             onPressed: () {
                               confirmDelete(
                                 context: context,

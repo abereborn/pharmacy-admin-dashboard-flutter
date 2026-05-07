@@ -69,7 +69,7 @@ class _SupplierPageState extends State<SupplierPage> {
       headers: {"Content-Type": "application/json"},
       body: json.encode({"nama": nama, "alamat": alamat, "noHp": noHp}),
     );
-    fetchSupplier();
+    await fetchSupplier();
   }
 
   Future<void> updateSupplier(
@@ -83,12 +83,12 @@ class _SupplierPageState extends State<SupplierPage> {
       headers: {"Content-Type": "application/json"},
       body: json.encode({"nama": nama, "alamat": alamat, "noHp": noHp}),
     );
-    fetchSupplier();
+    await fetchSupplier();
   }
 
   Future<void> hapusSupplier(int id) async {
     await http.delete(Uri.parse("$baseUrl/$id"));
-    fetchSupplier();
+    await fetchSupplier();
   }
 
   void showForm({Map? supplier}) {
@@ -115,19 +115,23 @@ class _SupplierPageState extends State<SupplierPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               TextField(
+                key: const Key('namaSupplierField'),
                 controller: namaController,
                 decoration: InputDecoration(labelText: "Nama Supplier"),
               ),
               TextField(
+                key: const Key('alamatSupplierField'),
                 controller: alamatController,
                 decoration: InputDecoration(labelText: "Alamat"),
               ),
               TextField(
+                key: const Key('hpSupplierField'),
                 controller: hpController,
                 decoration: InputDecoration(labelText: "No HP"),
               ),
               SizedBox(height: 10),
               ElevatedButton(
+                key: const Key('saveSupplierButton'),
                 onPressed: () {
                   if (namaController.text.isEmpty ||
                       alamatController.text.isEmpty ||
@@ -177,6 +181,7 @@ class _SupplierPageState extends State<SupplierPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
+        key: const Key('addSupplierButton'),
         backgroundColor: Colors.teal,
         onPressed: () => showForm(),
         child: Icon(Icons.add),
@@ -210,6 +215,7 @@ class _SupplierPageState extends State<SupplierPage> {
                 ],
               ),
               child: ListTile(
+                key: Key('supplierTile_${s['nama']}'),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 10,
@@ -241,10 +247,12 @@ class _SupplierPageState extends State<SupplierPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
+                      key: Key('editSupplier_${s['id']}'),
                       icon: Icon(Icons.edit, color: Colors.orange),
                       onPressed: () => showForm(supplier: s),
                     ),
                     IconButton(
+                      key: Key('deleteSupplier_${s['nama']}'),
                       icon: Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
                         confirmDelete(
